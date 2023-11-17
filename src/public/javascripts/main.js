@@ -5,6 +5,7 @@ function main() {
     let playerHand = [];
     let computerHand = [];
     let deck = [];
+    //let gameHistory = [];
 
     function handleFormSubmit(event) {
         
@@ -239,25 +240,23 @@ function main() {
     }
 
     function determineWinner() {
-        
-        const resultArea = document.querySelector('.result'); 
+        const resultArea = document.querySelector('.result');
         const playerTotal = calculateHandTotal(playerHand);
         const computerTotal = calculateHandTotal(computerHand);
 
         const computerTotalDisplay = document.querySelector('.computer-total');
         computerTotalDisplay.textContent = `Computer Hand - Total: ${computerTotal}`;
-        
-        // const computerHandDisplay = document.querySelector('.computer-hand');
-        // console.log(computerHandDisplay.classList);
+
+        // Display the hidden card in the computer's hand
+        const hiddenCard = document.querySelector('.computer-hand .card.hidden');
+        hiddenCard.classList.remove('hidden');
+        hiddenCard.textContent = computerHand[0].face; 
 
         if (playerTotal > 21 || (computerTotal <= 21 && computerTotal > playerTotal)) {
-            //alert('Computer wins!');
             resultArea.textContent = 'Player Lost! (Bust)';
         } else if (playerTotal === computerTotal) {
             resultArea.textContent = 'It\'s a tie!';
-        } 
-        else {
-            //alert('Player wins!');
+        } else {
             resultArea.textContent = 'Player wins!';
         }
     }
@@ -266,14 +265,18 @@ function main() {
         return deck.pop();
     }
 
+    
     /////extra credit part starts here
 
 // function showGameHistory() {
 //     // Use fetch to get the game history from your Express API
-//     fetch('http://localhost:3000/api/game-history')
+//     fetch('/api/game-history')
 //       .then((response) => response.json())
 //       .then((history) => {
 //         // Process and display the game history
+        
+//         gameHistory = history;
+//         console.log("here", gameHistory);
 //         displayGameHistory(history);
 //       })
 //       .catch((error) => console.error('Error fetching game history:', error));
@@ -281,10 +284,13 @@ function main() {
   
 //   function displayGameHistory(history) {
 //     // Clear the current content of the page
+//     console.log('displaying:', history);
 //     document.body.innerHTML = '';
   
 //     // Display the game history
 //     const historyContainer = document.createElement('div');
+//     historyContainer.textContent = 'Game History';
+//     historyContainer.style.backgroundColor = 'white'; 
 //     historyContainer.classList.add('game-history');
   
 //     // Iterate through the history and display each entry
@@ -326,16 +332,36 @@ function main() {
 //       initials: userInitials,
 //     };
   
-//     gameHistory.push(currentHand);
+//     fetch('http://localhost:3000/api/game-history', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify([...gameHistory, currentHand]),
+//   })
+//     .then(response => response.json())
+//     .then(data => console.log(data))
+//     .catch(error => console.error('Error updating game history:', error));
+
+//     //gameHistory.push(currentHand);
 //   }
 
+
+//   function createHistoryButton() {
+//     const historyButton = document.createElement('button');
+//     historyButton.textContent = 'History';
+//     historyButton.id = 'historyButton';
+
+//     historyButton.addEventListener('click', showGameHistory);
+        
+//     //move them below card display area
+//     document.querySelector('.button-display').appendChild(historyButton);
+//   }
   ////ends here
     
 
 
   
-
-
     document.querySelector('.playBtn').addEventListener('click', handleFormSubmit);
     
     

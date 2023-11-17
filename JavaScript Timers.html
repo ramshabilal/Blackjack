@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<!-- saved from url=(0081)https://cs.nyu.edu/courses/fall23/CSCI-UA.0467-001/_site/slides/19/timers.html#/1 -->
+<html lang="en" class=" js no-mobile desktop no-ie chrome chrome119 courses-section fall23-section csci-ua.0467-001-section _site-section slides-section 19-section w-1536 gt-240 gt-320 gt-480 gt-640 gt-768 gt-800 gt-1024 gt-1280 gt-1440 lt-1680 lt-1920 no-portrait landscape gradient rgba opacity textshadow multiplebgs boxshadow borderimage borderradius cssreflections csstransforms csstransitions no-touch retina fontface domloaded" id="timers-page"><div id="scroll_div" style="width: 100px; height: 100px; overflow: scroll; position: absolute; top: -9999px;"></div><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+
+		<title>JavaScript Timers</title>
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="./JavaScript Timers_files/reveal.min.css">
+		<link rel="stylesheet" href="./JavaScript Timers_files/slides.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="./JavaScript Timers_files/zenburn.css">
+
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				const link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = '../../resources/css/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+				document.addEventListener('DOMContentLoaded', function() {
+					console.log("loaded");
+					[].forEach.call(document.getElementsByTagName("section"), function(el) {
+						el.setAttribute("style", "");
+						el.classList.remove('future');
+					});
+					document.querySelector('div.reveal').removeChild(document.querySelector('.backgrounds'));
+				});
+			} else {
+				document.addEventListener('DOMContentLoaded', function() {
+					const printLink = document.createElement('a'),
+						controls = document.querySelector('.controls');
+					printLink.href = "?print-pdf";
+					printLink.textContent = 'print version';
+					printLink.style.display = "block";
+					printLink.style.top = "92px";
+					printLink.style.fontSize = "0.5em";
+					controls.style.textAlign = 'center';
+					controls.appendChild(printLink);
+				});
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]--><script type="text/javascript" src="./JavaScript Timers_files/highlight.js.download"></script><script type="text/javascript" src="./JavaScript Timers_files/zoom.js.download"></script>
+	</head>
+
+	<body data-new-gr-c-s-check-loaded="14.1137.0" data-gr-ext-installed="" style="transition: -webkit-transform 0.8s ease 0s;">
+		<div class="reveal page" data-transition-speed="default" data-background-transition="default">
+			<div class="slides" style="width: 960px; height: 700px; zoom: 0.909;">
+					<section class="intro-slide past" style="display: block;" hidden="">
+  <h1 id="javascript-timers">JavaScript Timers</h1>
+
+  <h3 id="csci-ua0467-002">CSCI-UA.0467-002</h3>
+
+  <p><small></small></p>
+</section>
+
+<section class="present" style="display: block;">
+  <h2 id="timing-functions">Timing Functions</h2>
+
+  <p>There are <strong>three built-in JavaScript functions</strong> that we could use for <strong>deferred and optionally repeated execution of functions</strong>.</p>
+
+  <ul>
+    <li>setTimeout</li>
+    <li>setInterval</li>
+    <li>window.requestAnimationFrame</li>
+  </ul>
+
+</section>
+
+<section class="future" style="display: block;" hidden="">
+  <h2 id="requestanimationframe">requestAnimationFrame</h2>
+
+  <p><strong>window.requestAnimationFrame(callback)</strong></p>
+
+  <p>asks the browser to perform an animation based on the function supplied as the argument. This callback function is invoked before the screen is <em>repainted</em>.</p>
+
+  <ul>
+    <li>it has a single argument, <strong>callback</strong>, which <em>draws</em> the frame</li>
+    <li>requestAnimationFrame must be called for every frame that you want to animate</li>
+    <li>(that means that it must be called repeatedly)</li>
+    <li>typically, the resulting animation is 60 frames per second
+      <ul>
+        <li>but the rate at which the callback is invoked may be adjusted based on resource utilization and priority</li>
+        <li>for example, the frame rate may drop if it's not the currently active tab</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+<section class="future" style="display: block;" hidden="">
+  <h2 id="animation-example">Animation Example</h2>
+
+  <p>Here's how <strong>window.requestAnimationFrame(callback)</strong> could be used to move the content div horizontally in our <a href="https://cs.nyu.edu/courses/fall23/CSCI-UA.0467-001/_site/code/class18.html">sample page</a> from a previous set of slides:</p>
+
+  <ul>
+    <li>the div is animated by changing the left property value (which is a string that ends in px)</li>
+    <li>note that the callback function must tell the browser to continue to animate by calling requestAnimationFrame</li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="" class="hljs javascript"><span class="hljs-keyword">let</span> pos = <span class="hljs-number">0</span>;
+<span class="hljs-built_in">window</span>.requestAnimationFrame(animate);
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">animate</span>(<span class="hljs-params"></span>) </span>{
+	<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'I am being animated!'</span>)
+	<span class="hljs-keyword">const</span> c = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'content'</span>)
+	c.style.left = pos + <span class="hljs-string">'px'</span>;
+	pos += <span class="hljs-number">1</span>;
+	<span class="hljs-built_in">window</span>.requestAnimationFrame(animate);
+}</code></pre>
+</section>
+
+<section class="future" style="display: block;" hidden="">
+  <h2 id="lets-try-it-elsewhere">Let's Try It Elsewhere…</h2>
+
+  <p>Open up a page… and <strong>modify the following code in the developer console to animate an element off screen</strong>!</p>
+
+  <pre><code data-trim="" contenteditable="" class="hljs javascript"><span class="hljs-keyword">let</span> pos = <span class="hljs-number">0</span>;
+<span class="hljs-keyword">const</span> ele = <span class="hljs-built_in">document</span>.getElementsByClassName(<span class="hljs-string">'className'</span>)[<span class="hljs-number">0</span>];
+ele.style.position = <span class="hljs-string">'relative'</span>;
+ele.style.zIndex = <span class="hljs-number">1000</span>;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">move</span>(<span class="hljs-params"></span>) </span>{
+	ele.style.top = pos + <span class="hljs-string">'px'</span>;
+	pos += <span class="hljs-number">1</span>
+	<span class="hljs-built_in">window</span>.requestAnimationFrame(move);
+}
+<span class="hljs-built_in">window</span>.requestAnimationFrame(move)</code></pre>
+
+</section>
+<section class="future" style="display: none;" hidden="">
+  <h2 id="setinterval-settimeout">setInterval, setTimeout</h2>
+
+  <p>A couple of other timing functions are:</p>
+
+  <ul>
+    <li><strong>setInterval(callback, delay)</strong>
+      <ul>
+        <li>calls callback in delay ms</li>
+        <li>continues to call the callback <strong>repeatedly at specified interval</strong></li>
+      </ul>
+    </li>
+    <li><strong>setTimeout(callback, delay)</strong>
+      <ul>
+        <li>calls callback in delay ms</li>
+        <li>only invokes callback <strong>once</strong></li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section class="future" style="display: block;" hidden="">
+  <h2 id="using-setintervalsettimeout">Using setInterval/setTimeout</h2>
+
+  <p>The following example uses set interval to:</p>
+
+  <ul>
+    <li>insert an h1 tag containing the current date/time</li>
+    <li>… into the nyu homepage</li>
+    <li>… every 2 seconds:</li>
+  </ul>
+
+  <p><br></p>
+
+  <pre><code data-trim="" contenteditable="" class="hljs javascript">setInterval(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+	<span class="hljs-keyword">const</span> header = <span class="hljs-built_in">document</span>.getElementsByClassName(<span class="hljs-string">'header'</span>)[<span class="hljs-number">0</span>];
+	header.appendChild(<span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'h1'</span>)).innerText = <span class="hljs-built_in">Date</span>();
+}, <span class="hljs-number">2000</span>);</code></pre>
+</section>
+
+<section class="future" style="display: block;" hidden="">
+  <h2 id="when-to-use-each">When to Use Each</h2>
+
+  <p>What reasons would you choose to use one timing function (<strong>requestAnimationFrame</strong>, <strong>setTimeout</strong> and <strong>setInterval</strong>) over the others?. <strong>This may be obvious, but…</strong> →</p>
+
+  <p class="fragment" data-fragment-index="0">For animation, use <strong>requestAnimationFrame</strong> because:</p>
+
+  <ul class="fragment" data-fragment-index="1">
+    <li>allows browser to make optimizations</li>
+    <li>consequently more efficient</li>
+    <li>(for example, Chrome will throttle setInterval)</li>
+  </ul>
+
+  <p class="fragment" data-fragment-index="2"><br>
+Maybe setInterval, setTimeout… when you need to specify the timing of a function call (though may be unreliable based on throttling!)</p>
+
+</section>
+
+
+			</div>
+		<div class="backgrounds"><div class="slide-background past"></div><div class="slide-background present"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div></div><div class="progress" style="display: block;"><span style="width: 219.429px;"></span></div><aside class="controls" style="display: block; text-align: center;"><div class="navigate-left enabled"></div><div class="navigate-right enabled"></div><div class="navigate-up"></div><div class="navigate-down"></div><a href="https://cs.nyu.edu/courses/fall23/CSCI-UA.0467-001/_site/slides/19/timers.html?print-pdf" style="display: block; top: 92px; font-size: 0.5em;">print version</a></aside><div class="slide-number"></div><div class="state-background"></div><div class="pause-overlay"></div></div>
+
+		<script src="./JavaScript Timers_files/head.min.js.download"></script>
+		<script src="./JavaScript Timers_files/reveal.min.js.download"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: false,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'page', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: '../../resources/lib/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: '../../resources/lib/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { highlightCode(); } },
+					{ src: '../../resources/lib/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: '../../resources/lib/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+// hljs.initHighlighting(); hljs.configure({languages: ['javascript', 'html']});
+function highlightCode() {
+	hljs.configure({languages:['python']});
+	document.querySelectorAll('pre code')
+		.forEach((ele) => {
+				ele.className = '';
+				ele.classList.add('hljs', 'javascript');
+				hljs.highlightBlock(ele);
+		});
+}
+
+		</script>
+
+	
+
+<scribe-shadow id="crxjs-ext" style="position: fixed; width: 0px; height: 0px; top: 0px; left: 0px; z-index: 2147483647; overflow: visible;"><template shadowrootmode="open"><div id="root-scribe-elem" style="position: fixed; width: 0px; height: 0px; top: 0px; left: 0px; overflow: visible; color: rgb(15, 23, 42);"></div><link rel="stylesheet" href="chrome-extension://okfkdaglfjjjfefdcppliegebpoegaii/assets/style.css"></template></scribe-shadow></body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>
