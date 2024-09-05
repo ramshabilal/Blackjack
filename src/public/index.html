@@ -1,19 +1,79 @@
 <!doctype html>
 <html>
 <head>
-<title>Cards!</title>
-<link rel="stylesheet" href="stylesheets/style.css" type="text/css" media="screen" title="no title" charset="utf-8">
-<meta charset="utf-8" /> 
+    <title>Cards!</title>
+    <link rel="stylesheet" href="stylesheets/style.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="stylesheets/style2.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <meta charset="utf-8" />
 </head>
 <body>
-<script src="javascripts/main.js"></script>
-<div class="start">
-  <form method="POST" action="">
- <label for="startValues">Start Values:</label> <input type="text" name="startValues" id="startValues">  
- <input class="playBtn" type="submit" value="Play">  
-  </form>
-</div>
-<div class="game">
-</div>
+  <script src="javascripts/main.js"></script>
+  <div class="start">
+    <div>
+      <form method="POST" action="">
+          <h1>One Hand of Blackjack</h1>
+          <img src="img/cards.png" alt="cards" style="width: 300px;align-items: center;" />
+          
+          <p for="startValues">Start Values (optional):</p>
+          <input type="text" name="startValues" id="startValues">
+          <input class="playBtn" type="submit" value="Play">
+      </form>
+      <div>
+              <!-- How to Play Button -->
+       <div>
+        <p style="padding-top:50px; font-size: 16px;">Not sure how to play? Click below</p>
+        <button id="toggleInstructions">Instructions</button>
+      </div>
+  
+        <!-- Instructions Section (Initially Hidden) -->
+        <div id="instructions" style="display: none;">
+            <h2>How to Play:</h2>
+            <p>1. Enter the start values for the hand in the input field (optional).</p>
+            <p>2. Click "Play" to start the game.</p>
+            <p>3. The game will simulate one hand of Blackjack based on your input.</p>
+  
+            <!-- Toggle for Detailed Instructions -->
+            <button id="toggleDetailedInstructions">Show Detailed Instructions</button>
+  
+            <!-- Detailed Instructions Section (Initially Hidden) -->
+            <div id="detailedInstructions" style="display: none;">
+                <h3>Detailed Instructions:</h3>
+                <p>- The start values should include numbers or a description that simulates a real Blackjack hand.</p>
+                <p>- After clicking "Play," the game will deal cards and automatically handle scoring based on Blackjack rules.</p>
+                <p>- Scoring is based on the standard Blackjack rules: Aces can count as 1 or 11, face cards (King, Queen, Jack) are worth 10 points, and all other cards are worth their face value.</p>
+                <p>- The objective is to have a hand value closest to 21 without going over (bust).</p>
+                <p>- After the hand is completed, the result will display whether you won, lost, or pushed (tie).</p>
+            </div>
+        </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="game">
+  </div>
+
+  <script>
+      // Toggle visibility of the instructions
+      document.getElementById('toggleInstructions').addEventListener('click', function() {
+          var instructions = document.getElementById('instructions');
+          if (instructions.style.display === 'none') {
+              instructions.style.display = 'block';
+          } else {
+              instructions.style.display = 'none';
+          }
+      });
+
+      // Toggle visibility of the detailed instructions
+      document.getElementById('toggleDetailedInstructions').addEventListener('click', function() {
+          var detailedInstructions = document.getElementById('detailedInstructions');
+          if (detailedInstructions.style.display === 'none') {
+              detailedInstructions.style.display = 'block';
+              this.textContent = 'Hide Detailed Instructions';
+          } else {
+              detailedInstructions.style.display = 'none';
+              this.textContent = 'Show Detailed Instructions';
+          }
+      });
+  </script>
 </body>
 </html>

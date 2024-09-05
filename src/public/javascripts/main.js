@@ -259,6 +259,14 @@ function main() {
         } else {
             resultArea.textContent = 'Player wins!';
         }
+        const playAgainButton = document.createElement('button');
+        playAgainButton.textContent = 'Play Again';
+
+        playAgainButton.addEventListener('click', function() {
+            location.reload();
+        });
+
+        document.querySelector('.button-display').appendChild(playAgainButton);
     }
 
     function dealCard() {
