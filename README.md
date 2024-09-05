@@ -4,7 +4,7 @@
 
 One Hand of Blackjack is a simple client-side card game where a user competes against the computer in a single hand of blackjack. The game is implemented using HTML, CSS, and JavaScript and is designed to run in a web browser.
 
-## [Link to deployed site](https://one-hand-blackjack.vercel.app/)
+## [Click to view deployed site](https://one-hand-blackjack.vercel.app/)
 
 ## Features
 
